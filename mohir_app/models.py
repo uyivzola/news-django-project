@@ -3,11 +3,13 @@ from django.utils import timezone
 
 # Create your models here.
 
+
 class Category(models.Model):
-    name=models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
 
 class News(models.Model):
     class Status(models.TextChoices):
@@ -26,7 +28,7 @@ class News(models.Model):
                               default=Status.Draft)
 
     class Meta:
-        ordering=['-published_time']
+        ordering = ['-published_time']
 
     def __str__(self):
-        return self.title     
+        return self.title
