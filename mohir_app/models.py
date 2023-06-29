@@ -1,8 +1,13 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 
 # Create your models here.
 
+class PublishedManager(models.Manager):
+     def get_queryset(self) -> QuerySet:
+         return super().get_queryset().filter(status=News.Status.Published)
+         
 
 class Category(models.Model):
     name = models.CharField(max_length=100)

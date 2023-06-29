@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <main>
+{% for news in news_list %}
+<a href={% url 'news_detail' news.slug %}>
+    <li> {{news}}</li>
+</a>
+
+{% endfor %}
+</main>
+
+</body>
+</html>
