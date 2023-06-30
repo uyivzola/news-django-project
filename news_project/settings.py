@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mohir_app'
+    'mohir_app',
 ]
 
 MIDDLEWARE = [
@@ -121,13 +121,13 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-STATIC_ROOT= BASE_DIR / 'staticfiles'
-STAITCFILES_FINDERS= [
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STAITCFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    
 ]
-MEDIA_ROOT =[BASE_DIR / 'media']
+
+MEDIA_ROOT = [BASE_DIR / 'media']
 MEDIA_URL = '/media/'
 
 
@@ -135,3 +135,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RECAPTCHA_PUBLIC_KEY = '6Ld31eImAAAAANX_fPfdoE-qtpoNuxdvm_3v-4Zw'
+RECAPTCHA_PRIVATE_KEY = '6Ld31eImAAAAAHs_fzH_xfwlYRB_QQjz-kxkabsP'
