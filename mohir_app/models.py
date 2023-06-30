@@ -4,10 +4,11 @@ from django.utils import timezone
 
 # Create your models here.
 
+
 class PublishedManager(models.Manager):
-     def get_queryset(self) -> QuerySet:
-         return super().get_queryset().filter(status=News.Status.Published)
-         
+    def get_queryset(self) -> QuerySet:
+        return super().get_queryset().filter(status=News.Status.Published)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -40,11 +41,11 @@ class News(models.Model):
 
 
 class Contact(models.Model):
-    name=models.CharField(max_length=100)
-    email=models.EmailField(max_length=100)
-    
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
     phone = models.CharField(max_length=20)
-    text=models.TextField()
+    text = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.email
