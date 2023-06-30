@@ -24,6 +24,31 @@ def news_detail(request, slug):
     context = {
         'news': news,
         'image_url': image_url
-        }
-
+    }
     return render(request, 'mohir_app/news_detail.html', context=context)
+
+
+def homePageView(request):
+    news = News.objects.all()
+    categories = Category.objects.all()
+    context = {
+        'news': news,
+        'categories': categories
+    }
+    return render(request, 'mohir_app/index.html', context)
+
+
+def contactView(request):
+    return render(request, 'mohir_app/contact.html')
+
+
+def page404(request):
+    return render(request, 'mohir_app/404.html')
+
+
+def singlePageView(request):
+    single_news = News.objects.all()
+    context = {
+        'single_news': single_news
+    }
+    return render(request, 'mohir_app/single_page.html', context=context)
