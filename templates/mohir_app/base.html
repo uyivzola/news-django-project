@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}NewsFeed Hello World{% endblock %}</title>
+    <title>{% block title %} NewsFeed | NEWS {% endblock %}</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -151,78 +151,18 @@
             <div class="latest_newsarea">
               <span>Latest News</span>
               <ul id="ticker01" class="news_sticker">
+                {% for news in latest_news %}
+                
                 <li>
-                  <a href="#"
+                  <a href="{% url 'news_detail_page' news.pk%}"
                     ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
+                      src="{{news.image.url}}"
                       alt=""
-                    />My First News Item</a
+                    />{{news.title}}</a
                   >
                 </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Second News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Third News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Four News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Five News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Six News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Seven News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail3.jpg'%}"
-                      alt=""
-                    />My Eight News Item</a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                    ><img
-                      src="{%static 'mohir_app/images/news_thumbnail2.jpg'%}"
-                      alt=""
-                    />My Nine News Item</a
-                  >
-                </li>
+                
+                {% endfor %}
               </ul>
               <div class="social_area">
                 <ul class="social_nav">

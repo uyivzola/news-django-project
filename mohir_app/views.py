@@ -1,8 +1,9 @@
+from typing import Any, Dict
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import News, Category
 from .forms import ContactForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 
 def news_list(request):
@@ -24,7 +25,7 @@ def category_list(request):
 
 
 def news_detail(request, id):
-    news = News.objects.all().order_by('-published')[:1]
+    news = News.objects.all().order_by('-published_time')[:1]
     context = {
         'news': news,
         'image': news.image,
@@ -43,15 +44,34 @@ def news_detail_page(request, id):
 def homePageView(request):
     categories = Category.objects.all()[:20]
     news = News.objects.all()
-    local_news = News.published.all().filter(category='local')[:5]
-    local_one=News.published.filter(category='local').order_by('-published-time')[0]
+    local_news = News.objects.all().filter(
+        status='Published', category='3')[:5]
+    local_one = News.objects.all().filter(
+        status='Published', category='3').order_by('-published_time')[0]
     context = {
         'news': news,
         'categories': categories,
         'local_news': local_news,
-        'local_one':local_one
+        'local_one': local_one
     }
     return render(request, 'mohir_app/index.html', context)
+
+
+class HomePageView(ListView):
+    model = News
+    template_name = "mohir_app/index.html"
+    context_object_name = 'news'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = self.model.objects.all()
+        context['news_list'] = News.objects.all().order_by(
+            '-published_time')[:15]
+        context['local_one'] = News.objects.all().filter(
+            category='3').order_by('-published_time')[:1]
+        context['local_news'] = News.objects.all().filter(
+            category='3').order_by('-published_time')[1:6]
+        return context
 
 
 def contactView(request):

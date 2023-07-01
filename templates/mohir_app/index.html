@@ -1,5 +1,4 @@
-{% extends 'mohir_app/base.html' %} {% load static %} {% block title %}HOME
-:FEED | NEWS{% endblock title %} {% block content %}
+{% extends 'mohir_app/base.html' %} {% load static %} {% block title %}FEED | NEWS{% endblock title %} {% block content %}
 <section id="sliderSection">
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
@@ -65,33 +64,40 @@
       <div class="left_content">
         <div class="single_post_content">
           <h2><span>Business</span></h2>
+          {% comment %} one content only {% endcomment %} 
+          {% for news in latest_news %}
           <div class="single_post_content_left">
             <ul class="business_catgnav wow fadeInDown">
               <li>
                 <figure class="bsbig_fig">
                   <a
-                    href="{%url 'news_detail_page' news.pk%}"
+                    href="{%url 'news_detail_page' news.pk %}"
                     class="featured_img"
                   >
-                    <img alt="" src="{{local_one.image.url}}" />
+                    <img alt="" src="{{news.image.url}}" />
                     <span class="overlay"></span>
                   </a>
                   <figcaption>
                     <a href="{%url 'news_detail_page' news.pk%}">
-                      {{local_one.title}}
+                      {{news.title}}
                     </a>
                   </figcaption>
-                  <p>{{local_one.body}}</p>
+                  <p>{{news.body | truncatewords:7 }}</p>
                 </figure>
               </li>
             </ul>
           </div>
+          {% endfor %} 
+          {% comment %} looping the posts on the right {%endcomment %}
           <div class="single_post_content_right">
             <ul class="spost_nav">
               {% for news in local_news %}
               <li>
                 <div class="media wow fadeInDown">
-                  <a href="{%url 'news_detail_page' news.pk %}" class="media-left">
+                  <a
+                    href="{%url 'news_detail_page' news.pk %}"
+                    class="media-left"
+                  >
                     <img alt="" src="{{news.image.url}}" />
                   </a>
                   <div class="media-body">

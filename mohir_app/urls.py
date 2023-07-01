@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import news_list, category_list, news_detail, homePageView, ContactPageView, page404, singlePageView,news_detail_page
+from .views import news_list, category_list, news_detail, homePageView, ContactPageView, page404, singlePageView,news_detail_page,HomePageView
 
 urlpatterns = [
-    path('', homePageView, name='homePageView'),
+    path('', HomePageView.as_view(), name='homePageView'),
     path('contact', ContactPageView.as_view(), name='contactView'),
     path('not-found', page404, name='page404'),
     # path('single', singlePageView, name='singlePageView'),

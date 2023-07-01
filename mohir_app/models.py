@@ -21,6 +21,9 @@ class News(models.Model):
     class Status(models.TextChoices):
         Draft = 'DF', 'Draft'
         Published = 'PB', 'Published'
+    @classmethod
+    def published(cls):
+        return cls.objects.filter(status=cls.Status.Published)
 
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
@@ -32,7 +35,11 @@ class News(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices,
                               default=Status.Draft)
-
+    
+    @classmethod
+    def published(cls):
+        return cls.objects.filter(status=News.Status.Published)
+    
     class Meta:
         ordering = ['-published_time']
 
