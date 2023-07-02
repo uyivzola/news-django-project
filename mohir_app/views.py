@@ -33,8 +33,8 @@ def news_detail(request, id):
     return render(request, 'mohir_app/single_page.html', context=context)
 
 
-def news_detail_page(request, id):
-    news = get_object_or_404(News, id=id)
+def news_detail_page(request, slug):
+    news = get_object_or_404(News, slug=slug, status=News.Status.Published)
     context = {
         'news': news,
     }
@@ -64,21 +64,21 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["categories"] = Category.objects.all().order_by('-id')
+        context["categories"] = Category.objects.all().order_by('-id')[:20]
         context['latest_post'] = News.objects.all().order_by(
             '-published_time')[:4]
         context['local_news'] = News.objects.all().order_by(
             '-published_time')[:6]
         context['prezident'] = News.objects.all().filter(
-            category='159').order_by('-published_time')
+            category__name='Prezident').order_by('-published_time')
         context['business'] = News.objects.all().filter(
-            category='2').order_by('-published_time')
+            category__name='Business').order_by('-published_time')
         context['arts'] = News.objects.all().filter(
-            category='7').order_by('-published_time')
+            category__name='Arts').order_by('-published_time')
         context['technology'] = News.objects.all().filter(
-            category='148').order_by('-published_time')
+            category__name='Technology').order_by('-published_time')
         context['ethnic'] = News.objects.all().filter(
-            category='45').order_by('-published_time')
+            category__name='Ethnic').order_by('-published_time')
         return context
 
 
@@ -120,7 +120,7 @@ class ContactPageView(TemplateView):
         form = ContactForm(request.POST)
         if request.method == 'POST' and form.is_valid():
             form.save()
-            return HttpResponse('<h2>Biz bilan boglanganingiz uchun rahmat! </h2>')
+            return render(request, 'mohir_app/form_success.html')
         context = {
             'form': form
         }

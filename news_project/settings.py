@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mohir_app.context_processor.latest_news', # included my own context processor
+                # 'mohir_app.context_processor.categories', # included my own context processor
 
             ],
         },

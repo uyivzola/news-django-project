@@ -7,12 +7,12 @@ FEED | NEWS{% endblock title %} {% block content %}
       <div class="slick_slider">
         {% for news in news %}
         <div class="single_iteam">
-          <a href="{% url 'news_detail_page' news.pk%}">
+          <a href="{{ news.get_absolute_url }}">
             <img src="{%static 'mohir_app/images/slider_img4.jpg'%}" alt=""
           /></a>
           <div class="slider_article">
             <h2>
-              <a class="slider_tittle" href="{%url 'news_detail_page' news.pk%}"
+              <a class="slider_tittle" href="{{ news.get_absolute_url }}"
                 >Fusce eu nulla semper porttitor felis sit amet</a
               >
             </h2>

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
+from django.urls import reverse
 from django.utils import timezone
-
 # Create your models here.
 
 
@@ -36,15 +36,22 @@ class News(models.Model):
     status = models.CharField(max_length=2, choices=Status.choices,
                               default=Status.Draft)
     
-    @classmethod
-    def published(cls):
-        return cls.objects.filter(status=News.Status.Published)
+    objects=models.Manager()
+    published=PublishedManager()
+
+    # @classmethod
+    # def published(cls):
+    #     return cls.objects.filter(status=News.Status.Published)
     
     class Meta:
         ordering = ['-published_time']
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse("news_detail_page", args=[self.slug])
+    
 
 
 class Contact(models.Model):
@@ -52,13 +59,9 @@ class Contact(models.Model):
     email = models.EmailField(max_length=100)
     phone = models.CharField(max_length=20)
     text = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
-    
 
     def __str__(self):
         return self.email
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:  # Only set the date if the object is being created
-            self.date = timezone.now()
-        super().save(*args, **kwargs)
+
+
+# delete date from one model in database 
