@@ -1,4 +1,5 @@
-{% extends 'mohir_app/base.html' %} {% load static %} {% block title %}FEED | NEWS{% endblock title %} {% block content %}
+{% extends 'mohir_app/base.html' %} {% load static %} {% block title %}FEED |
+NEWS{% endblock title %} {% block content %}
 <section id="sliderSection">
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
@@ -28,26 +29,25 @@
         <div class="latest_post_container">
           <div id="prev-button"><i class="fa fa-chevron-up"></i></div>
           <ul class="latest_postnav">
-            {% for news in news %}
-
-            <li>
-              <div class="media">
-                <a
-                  href="{% url 'news_detail_page' news.pk %}"
-                  class="media-left"
-                >
-                  <img alt="" src="{{news.image.url}}" />
-                </a>
-                <div class="media-body">
-                  <a
-                    href="{%url 'news_detail_page' news.pk %}"
-                    class="catg_title"
-                  >
-                    {{news.title}}
-                  </a>
-                </div>
-              </div>
-            </li>
+            {% for news in latest_post %}
+                <li>
+                  <div class="media">
+                    <a
+                      href="{% url 'news_detail_page' news.pk %}"
+                      class="media-left"
+                    >
+                      <img alt="" src="{{news.image.url}}" />
+                    </a>
+                    <div class="media-body">
+                      <a
+                        href="{%url 'news_detail_page' news.pk %}"
+                        class="catg_title"
+                      >
+                        {{news.title}}
+                      </a>
+                    </div>
+                  </div>
+                </li>
 
             {% endfor %}
           </ul>
@@ -64,141 +64,109 @@
       <div class="left_content">
         <div class="single_post_content">
           <h2><span>Business</span></h2>
+
           {% comment %} one content only {% endcomment %} 
-          {% for news in latest_news %}
-          <div class="single_post_content_left">
-            <ul class="business_catgnav wow fadeInDown">
-              <li>
-                <figure class="bsbig_fig">
-                  <a
-                    href="{%url 'news_detail_page' news.pk %}"
-                    class="featured_img"
-                  >
-                    <img alt="" src="{{news.image.url}}" />
-                    <span class="overlay"></span>
-                  </a>
-                  <figcaption>
-                    <a href="{%url 'news_detail_page' news.pk%}">
-                      {{news.title}}
-                    </a>
-                  </figcaption>
-                  <p>{{news.body | truncatewords:7 }}</p>
-                </figure>
-              </li>
-            </ul>
-          </div>
+          {% for news in business %} 
+            {% if forloop.first %}
+              <div class="single_post_content_left">
+                <ul class="business_catgnav wow fadeInDown">
+                  <li>
+                    <figure class="bsbig_fig">
+                      <a
+                        href="{%url 'news_detail_page' news.pk %}"
+                        class="featured_img"
+                      >
+                        <img alt="" src="{{news.image.url}}" />
+                        <span class="overlay"></span>
+                      </a>
+                      <figcaption>
+                        <a href="{%url 'news_detail_page' news.pk%}">
+                          {{news.title}}
+                        </a>
+                      </figcaption>
+                      <p>{{news.body | truncatewords:7 }}</p>
+                    </figure>
+                  </li>
+                </ul>
+              </div>
+            {% endif %} 
           {% endfor %} 
-          {% comment %} looping the posts on the right {%endcomment %}
+
+
           <div class="single_post_content_right">
             <ul class="spost_nav">
-              {% for news in local_news %}
-              <li>
-                <div class="media wow fadeInDown">
-                  <a
-                    href="{%url 'news_detail_page' news.pk %}"
-                    class="media-left"
-                  >
-                    <img alt="" src="{{news.image.url}}" />
-                  </a>
-                  <div class="media-body">
-                    <a href="{{news.image.url}}" class="catg_title">
-                      {{news.title}}
-                    </a>
-                  </div>
-                </div>
-              </li>
+              {% for news in business %} 
+                {% if forloop.counter > 1 %}
+                  <li>
+                    <div class="media wow fadeInDown">
+                      <a
+                        href="{%url 'news_detail_page' news.pk %}"
+                        class="media-left"
+                      >
+                        <img alt="" src="{{news.image.url}}" />
+                      </a>
+                      <div class="media-body">
+                        <a href="{{news.image.url}}" class="catg_title">
+                          {{news.title}}
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                {% endif %} 
               {% endfor %}
             </ul>
           </div>
         </div>
+
         <div class="fashion_technology_area">
           <div class="fashion">
             <div class="single_post_content">
-              <h2><span>Fashion</span></h2>
-              <ul class="business_catgnav wow fadeInDown">
-                <li>
-                  <figure class="bsbig_fig">
-                    <a href="{%url 'singlePageView'%}" class="featured_img">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/featured_img2.jpg'%}"
-                      />
-                      <span class="overlay"></span>
-                    </a>
-                    <figcaption>
-                      <a href="{%url 'singlePageView'%}"
-                        >Proin rhoncus consequat nisl eu ornare mauris</a
-                      >
-                    </figcaption>
-                    <p>
-                      Nunc tincidunt, elit non cursus euismod, lacus augue
-                      ornare metus, egestas imperdiet nulla nisl quis mauris.
-                      Suspendisse a phare...
-                    </p>
-                  </figure>
-                </li>
+              <h2><span>Arts</span></h2>
+              <ul class="business_catgnav">
+                {% for news in arts %}
+                  {% if forloop.first %}
+                    <li>
+                      <figure class="bsbig_fig wow fadeInDown">
+                        <a href="{%url 'news_detail_page' news.pk%}" class="featured_img">
+                          <img
+                            alt=""
+                            src="{{news.image.url}}"
+                          />
+                          <span class="overlay"></span>
+                        </a>
+                        <figcaption>
+                          <a href="{%url 'news_detail_page' news.pk%}"
+                            >{{news.title}}</a
+                          >
+                        </figcaption>
+                        <p>
+                          {{news.body | truncatewords:15 }}
+                        </p>
+                      </figure>
+                    </li>
+                  {% endif %}
+                {% endfor %}
               </ul>
               <ul class="spost_nav">
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img1.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 1</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img2.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 2</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img1.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 3</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img2.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 4</a
-                      >
-                    </div>
-                  </div>
-                </li>
+                {% for news in arts %}
+                  {% if forloop.counter > 1 %}
+                    <li>
+                      <div class="media wow fadeInDown">
+                        <a href="{%url 'news_detail_page' news.pk%}" class="media-left">
+                          <img
+                            alt=""
+                            src="{{news.image.url}}"
+                          />
+                        </a>
+                        <div class="media-body">
+                          <a href="{%url 'news_detail_page' news.pk%}" class="catg_title">
+                            {{news.title}}</a
+                          >
+                        </div>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}  
               </ul>
             </div>
           </div>
@@ -206,89 +174,49 @@
             <div class="single_post_content">
               <h2><span>Technology</span></h2>
               <ul class="business_catgnav">
-                <li>
-                  <figure class="bsbig_fig wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="featured_img">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/featured_img3.jpg'%}"
-                      />
-                      <span class="overlay"></span>
-                    </a>
-                    <figcaption>
-                      <a href="{%url 'singlePageView'%}"
-                        >Proin rhoncus consequat nisl eu ornare mauris</a
-                      >
-                    </figcaption>
-                    <p>
-                      Nunc tincidunt, elit non cursus euismod, lacus augue
-                      ornare metus, egestas imperdiet nulla nisl quis mauris.
-                      Suspendisse a phare...
-                    </p>
-                  </figure>
-                </li>
+                {% for news in technology %}
+                  {% if forloop.first %}
+                  
+                    <li>
+                      <figure class="bsbig_fig wow fadeInDown">
+                        <a href="{%url 'news_detail_page' news.pk%}" class="featured_img">
+                          <img
+                            alt=""
+                            src="{{news.image.url}}"
+                          />
+                          <span class="overlay"></span>
+                        </a>
+                        <figcaption>
+                          <a href="{%url 'news_detail_page' news.pk%}"
+                            >{{news.title}}</a
+                          >
+                        </figcaption>
+                        <p>{{news.body | truncatewords:15}}</p>
+                      </figure>
+                    </li>
+                  {% endif %}
+                {% endfor %}
               </ul>
               <ul class="spost_nav">
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img1.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 1</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img2.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 2</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img1.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 3</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="media wow fadeInDown">
-                    <a href="{%url 'singlePageView'%}" class="media-left">
-                      <img
-                        alt=""
-                        src="{%static 'mohir_app/images/post_img2.jpg'%}"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <a href="{%url 'singlePageView'%}" class="catg_title">
-                        Aliquam malesuada diam eget turpis varius 4</a
-                      >
-                    </div>
-                  </div>
-                </li>
+                {% for news in technology %}
+                  {% if forloop.counter > 1 %}
+                    <li>
+                      <div class="media wow fadeInDown">
+                        <a href="{%url 'news_detail_page' news.pk%}" class="media-left">
+                          <img
+                            alt=""
+                            src="{{news.image.url}}"
+                          />
+                        </a>
+                        <div class="media-body">
+                          <a href="{%url 'news_detail_page' news.pk%}" class="catg_title">
+                            {{news.title}}</a
+                          >
+                        </div>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}
               </ul>
             </div>
           </div>
@@ -400,94 +328,53 @@
           </ul>
         </div>
         <div class="single_post_content">
-          <h2><span>Games</span></h2>
+          <h2><span>Ethnic</span></h2>
           <div class="single_post_content_left">
             <ul class="business_catgnav">
-              <li>
-                <figure class="bsbig_fig wow fadeInDown">
-                  <a class="featured_img" href="{%url 'singlePageView'%}">
-                    <img
-                      src="{%static 'mohir_app/images/featured_img1.jpg' %}"
-                      alt=""
-                    />
-                    <span class="overlay"></span>
-                  </a>
-                  <figcaption>
-                    <a href="{%url 'singlePageView'%}"
-                      >Proin rhoncus consequat nisl eu ornare mauris</a
-                    >
-                  </figcaption>
-                  <p>
-                    Nunc tincidunt, elit non cursus euismod, lacus augue ornare
-                    metus, egestas imperdiet nulla nisl quis mauris. Suspendisse
-                    a phare...
-                  </p>
-                </figure>
-              </li>
+              {% for news in ethnic %}
+                {% if forloop.first %}   
+                  <li>
+                    <figure class="bsbig_fig wow fadeInDown">
+                      <a class="featured_img" href="{%url 'news_detail_page' news.pk%}">
+                        <img
+                          src="{{news.image.url}}"
+                          alt=""
+                        />
+                        <span class="overlay"></span>
+                      </a>
+                      <figcaption>
+                        <a href="{%url 'news_detail_page' news.pk%}"
+                          >{{news.title}}</a
+                        >
+                      </figcaption>
+                      <p>{{news.body | truncatewords:15}}</p>
+                    </figure>
+                  </li>
+                {% endif %}
+              {% endfor %}
             </ul>
           </div>
           <div class="single_post_content_right">
             <ul class="spost_nav">
-              <li>
-                <div class="media wow fadeInDown">
-                  <a href="{%url 'singlePageView'%}" class="media-left">
-                    <img
-                      alt=""
-                      src="{%static 'mohir_app/images/post_img1.jpg'%}"
-                    />
-                  </a>
-                  <div class="media-body">
-                    <a href="{%url 'singlePageView'%}" class="catg_title">
-                      Aliquam malesuada diam eget turpis varius 1</a
-                    >
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="media wow fadeInDown">
-                  <a href="{%url 'singlePageView'%}" class="media-left">
-                    <img
-                      alt=""
-                      src="{%static 'mohir_app/images/post_img2.jpg'%}"
-                    />
-                  </a>
-                  <div class="media-body">
-                    <a href="{%url 'singlePageView'%}" class="catg_title">
-                      Aliquam malesuada diam eget turpis varius 2</a
-                    >
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="media wow fadeInDown">
-                  <a href="{%url 'singlePageView'%}" class="media-left">
-                    <img
-                      alt=""
-                      src="{%static 'mohir_app/images/post_img1.jpg'%}"
-                    />
-                  </a>
-                  <div class="media-body">
-                    <a href="{%url 'singlePageView'%}" class="catg_title">
-                      Aliquam malesuada diam eget turpis varius 3</a
-                    >
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="media wow fadeInDown">
-                  <a href="{%url 'singlePageView'%}" class="media-left">
-                    <img
-                      alt=""
-                      src="{%static 'mohir_app/images/post_img2.jpg'%}"
-                    />
-                  </a>
-                  <div class="media-body">
-                    <a href="{%url 'singlePageView'%}" class="catg_title">
-                      Aliquam malesuada diam eget turpis varius 4</a
-                    >
-                  </div>
-                </div>
-              </li>
+              {% for news in ethnic %}
+                {% if forloop.counter > 1 %}
+                  <li>
+                    <div class="media wow fadeInDown">
+                      <a href="{%url 'news_detail_page' news.pk%}" class="media-left">
+                        <img
+                          alt=""
+                          src="{{news.image.url}}"
+                        />
+                      </a>
+                      <div class="media-body">
+                        <a href="{%url 'news_detail_page' news.pk%}" class="catg_title">
+                          {{news.title}}</a
+                        >
+                      </div>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
             </ul>
           </div>
         </div>

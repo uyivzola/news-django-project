@@ -64,13 +64,21 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["categories"] = Category.objects.all()
-        context['news_list'] = News.objects.all().order_by(
-            '-published_time')[:15]
-        context['local_one'] = News.objects.all().filter(
-            category='3').order_by('-published_time')[:1]
-        context['local_news'] = News.objects.all().filter(
-            category='3').order_by('-published_time')[1:6]
+        context["categories"] = Category.objects.all().order_by('-id')
+        context['latest_post'] = News.objects.all().order_by(
+            '-published_time')[:4]
+        context['local_news'] = News.objects.all().order_by(
+            '-published_time')[:6]
+        context['prezident'] = News.objects.all().filter(
+            category='159').order_by('-published_time')
+        context['business'] = News.objects.all().filter(
+            category='2').order_by('-published_time')
+        context['arts'] = News.objects.all().filter(
+            category='7').order_by('-published_time')
+        context['technology'] = News.objects.all().filter(
+            category='148').order_by('-published_time')
+        context['ethnic'] = News.objects.all().filter(
+            category='45').order_by('-published_time')
         return context
 
 
