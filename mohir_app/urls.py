@@ -9,8 +9,8 @@ urlpatterns = [
     path('news', news_list, name='all_news_list'),
     path('categories', category_list, name='all_category'),
     path('single/', news_detail, name='singlePageView'),
+    path('arts/', ArtsNewsView.as_view(), name='artsNewsView'),
     path('<slug:slug>/', news_detail_page, name='news_detail_page'),
     path('technology/', TechnologyNewsView.as_view(), name='technologyNewsView'),
-    path('arts/', ArtsNewsView.as_view(), name='artsNewsView')
 
 ]
