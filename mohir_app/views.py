@@ -125,3 +125,33 @@ class ContactPageView(TemplateView):
             'form': form
         }
         return render(request, 'mohir_app/contact.html', context)
+
+
+class BusinessNewsView(TemplateView):
+    model = News
+    template_name = 'mohir_app/business.html'
+    context_object_name = 'business_news'
+
+    def get_queryset(self):
+        news = self.model.published.all().filter(category__name='Business')
+        return news
+
+
+class TechnologyNewsView(TemplateView):
+    model = News
+    template_name = 'mohir_app/technology.html'
+    context_object_name = 'technology_news'
+
+    def get_queryset(self):
+        news = self.model.published.all().filter(category__name='Technology')
+        return news
+
+
+class ArtsNewsView(TemplateView):
+    model = News
+    template_name = 'mohir_app/arts.html'
+    context_object_name = 'arts_news'
+
+    def get_queryset(self):
+        news = self.model.published.all().filter(category__name='Arts')
+        return news

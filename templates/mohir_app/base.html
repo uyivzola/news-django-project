@@ -6,7 +6,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="{%static 'mohir_app/images/favicon.ico'%}">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{%static 'mohir_app/images/favicon.ico'%}"
+    />
     <link
       rel="stylesheet"
       type="text/css"
@@ -122,7 +126,7 @@
               <li><a href="#">Technology</a></li>
               <li class="dropdown">
                 <a
-                  href="#"
+                  href="{%url 'businessNewsView'%}"
                   class="dropdown-toggle"
                   data-toggle="dropdown"
                   role="button"
@@ -152,16 +156,13 @@
               <span>Latest News</span>
               <ul id="ticker01" class="news_sticker">
                 {% for news in latest_news %}
-                
+
                 <li>
                   <a href="{{ news.get_absolute_url }}"
-                    ><img
-                      src="{{news.image.url}}"
-                      alt=""
-                    />{{news.title}}</a
+                    ><img src="{{news.image.url}}" alt="" />{{news.title}}</a
                   >
                 </li>
-                
+
                 {% endfor %}
               </ul>
               <div class="social_area">
@@ -194,10 +195,9 @@
                 <h2>Tag</h2>
                 <ul class="tag_nav">
                   {% for category in categories %}
-                  
-                    <li><a href="#">{{category.name}}</a></li>
+
+                  <li><a href="#">{{category.name}}</a></li>
                   {% endfor %}
-                  
                 </ul>
               </div>
             </div>

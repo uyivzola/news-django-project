@@ -21,6 +21,7 @@ class News(models.Model):
     class Status(models.TextChoices):
         Draft = 'DF', 'Draft'
         Published = 'PB', 'Published'
+
     @classmethod
     def published(cls):
         return cls.objects.filter(status=cls.Status.Published)
@@ -35,23 +36,23 @@ class News(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices,
                               default=Status.Draft)
-    
-    objects=models.Manager()
-    published=PublishedManager()
+
+    objects = models.Manager()
+    published = PublishedManager()
 
     # @classmethod
     # def published(cls):
     #     return cls.objects.filter(status=News.Status.Published)
-    
+
     class Meta:
         ordering = ['-published_time']
 
     def __str__(self):
         return self.title
-    
+    # giving SEO slug for pages
+
     def get_absolute_url(self):
         return reverse("news_detail_page", args=[self.slug])
-    
 
 
 class Contact(models.Model):
@@ -64,4 +65,4 @@ class Contact(models.Model):
         return self.email
 
 
-# delete date from one model in database 
+# delete date from one model in database
