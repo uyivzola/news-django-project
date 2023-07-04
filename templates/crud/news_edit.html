@@ -1,0 +1,17 @@
+{% extends 'mohir_app/base.html' %}
+
+{% load static %}
+
+{% block title %}{{news.title}}{% endblock title %}
+
+{% block content %}
+<div class='text-center'>Joriy yangilikni tahrirlash</div>
+<form method='post' >
+{% csrf_token %}
+       {{form.as_p}}  
+       <button type='submit' class='btn btn-danger ml-2'>Tasdiqlayman</button>
+
+}
+</form>
+
+{% endblock content %}

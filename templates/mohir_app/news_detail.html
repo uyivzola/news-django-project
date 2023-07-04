@@ -1,40 +1,64 @@
-{% extends 'mohir_app/base.html' %}
-
-{% block title %}
-  {% if news %}
-    {{ news.title }}
-  {% else %}
+{% extends 'mohir_app/base.html' %} 
+{% block title %} 
+  {% if news %} 
+    {{news.title }} 
+  {% else %} 
     NewsFeed
-  {% endif %}
-{% endblock %}
+  {% endif %} 
+{% endblock %} 
 
 {% block content %}
   {% if news %}
-    <section id="detailSection">
-      <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8">
-          <div class="left_content">
-            <div class="single_page">
-              <h1>{{ news.title }}</h1>
-              <div class="post_commentbox">
-                <a href="#"><i class="fa fa-user"></i>{{ news.author }}</a>
-                <span><i class="fa fa-calendar"></i>{{ news.published_time }}</span>
-              </div>
-              <div class="single_page_content">
-                <img class="img-center" src="{{ news.image.url }}" alt="{{ news.title }}" />
-                <p>{{ news.body }}</p>
-              </div>
+  <section id="detailSection">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="left_content">
+          <div class="single_page">
+            <h1>{{ news.title }}</h1>
+            <div class="post_commentbox">
+              <a href="#"><i class="fa fa-user"></i>{{ news.author }}</a>
+              <span><i class="fa fa-calendar"></i>{{ news.published_time }}</span>
+            </div>
+            <div class="single_page_content">
+              <img
+                class="img-center"
+                src="{{ news.image.url }}"
+                alt="{{ news.title }}"
+              />
+              <p>{{ news.body }}</p>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4">
-          <aside class="right_content">
-            <!-- Sidebar content -->
-          </aside>
-        </div>
       </div>
-    </section>
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <aside class="right_content">
+          <a href="{% url 'newsUpdateView' news.slug%}">
+            <button
+              class="btn btn-success btn-sm rounded-0"
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Edit"
+            >
+              <i class="fa fa-edit"></i> Edit
+            </button>
+          </a>
+          <a href="{% url 'newsDeleteview' news.slug%}"
+            ><button
+              class="btn btn-danger btn-sm rounded-0"
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Delete"
+            >
+              <i class="fa fa-trash"></i>Delete
+            </button>
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
   {% else %}
     <p>Page not found.</p>
-  {% endif %}
+  {% endif %} 
 {% endblock %}

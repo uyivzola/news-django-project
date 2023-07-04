@@ -3,35 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import News, Category
 from .forms import ContactForm
-from django.views.generic import TemplateView, ListView
-
-
-def news_list(request):
-    news_list = News.objects.all().order_by('-published_time')
-    categories = Category.objects.all()
-    context = {
-        "news_list": news_list,
-        "categories": categories
-    }
-    return render(request, "mohir_app/news_list.html", context=context)
-
-
-def category_list(request):
-    category_list = Category.objects.all()
-    context = {
-        'context_list': category_list
-    }
-    return render(request, 'mohir_app/category.html', context=context)
-
-
-def news_detail(request, id):
-    news = News.objects.all().order_by('-published_time')[:1]
-    context = {
-        'news': news,
-        'image': news.image,
-    }
-    return render(request, 'mohir_app/single_page.html', context=context)
-
+from django.views.generic import TemplateView, ListView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 def news_detail_page(request, slug):
     news = get_object_or_404(News, slug=slug, status=News.Status.Published)
@@ -39,22 +12,6 @@ def news_detail_page(request, slug):
         'news': news,
     }
     return render(request, 'mohir_app/news_detail.html', context=context)
-
-
-def homePageView(request):
-    categories = Category.objects.all()[:20]
-    news = News.objects.all()
-    local_news = News.objects.all().filter(
-        status='Published', category='3')[:5]
-    local_one = News.objects.all().filter(
-        status='Published', category='3').order_by('-published_time')[0]
-    context = {
-        'news': news,
-        'categories': categories,
-        'local_news': local_news,
-        'local_one': local_one
-    }
-    return render(request, 'mohir_app/index.html', context)
 
 
 class HomePageView(ListView):
@@ -97,13 +54,6 @@ def contactView(request):
 def page404(request):
     return render(request, 'mohir_app/404.html')
 
-
-def singlePageView(request):
-    single_news = News.objects.all()
-    context = {
-        'single_news': single_news
-    }
-    return render(request, 'mohir_app/single_page.html', context=context)
 
 
 class ContactPageView(TemplateView):
@@ -155,3 +105,15 @@ class ArtsNewsView(TemplateView):
     def get_queryset(self):
         news = self.model.published.all().filter(category__name='Arts')
         return news
+
+
+class NewsUpdateView(UpdateView):
+    model = News
+    fields = ('title', 'body', 'image', 'category', 'status')
+    template_name = 'crud/news_edit.html'
+
+
+class NewsDeleteView(DeleteView):
+    model = News
+    template_name = 'crud/news_delete.html'
+    success_url=reverse_lazy('homePageView')
