@@ -5,13 +5,11 @@
 {% block title %}{{news.title}}{% endblock title %}
 
 {% block content %}
-<div class='text-center'>Joriy yangilikni tahrirlash</div>
-<form method='post' >
-{% csrf_token %}
-       {{form.as_p}}  
-       <button type='submit' class='btn btn-danger ml-2'>Tasdiqlayman</button>
-
-}
-</form>
+    <div class='text-center'>Joriy yangilikni tahrirlash</div>
+    <form method='post' enctpe='multipart/form-data'>
+    {% csrf_token %}
+        {{form.as_p}}  
+        <button type='submit' class='btn btn-danger ml-2'>Tasdiqlayman</button>
+    </form>
 
 {% endblock content %}

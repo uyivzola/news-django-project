@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import News, Category
 from .forms import ContactForm
-from django.views.generic import TemplateView, ListView, UpdateView, DeleteView
+from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
+
 
 def news_detail_page(request, slug):
     news = get_object_or_404(News, slug=slug, status=News.Status.Published)
@@ -53,7 +54,6 @@ def contactView(request):
 
 def page404(request):
     return render(request, 'mohir_app/404.html')
-
 
 
 class ContactPageView(TemplateView):
@@ -116,4 +116,12 @@ class NewsUpdateView(UpdateView):
 class NewsDeleteView(DeleteView):
     model = News
     template_name = 'crud/news_delete.html'
-    success_url=reverse_lazy('homePageView')
+    success_url = reverse_lazy('homePageView')
+
+
+class NewsCreateView(CreateView):
+    model = News
+    template_name = 'crud/news_create.html'
+    fields = ('title', 'slug', 'body', 'image', 'category', 'status')
+
+    
