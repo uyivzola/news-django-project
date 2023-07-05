@@ -28,9 +28,8 @@ def user_login(request):
 
 
 def dashboard_view(request):
-    user=request.user
-
-    context={
-        'user':user
+    user = request.user
+    context = {
+        'user': user
     }
     return render(request, 'pages/user_profile.html', context)
