@@ -139,6 +139,10 @@ h1 {
   width: 90%;
 }
 
+.image {
+  width: 200px;
+}
+
 .circle-one {
   top: 0;
   left: 0;

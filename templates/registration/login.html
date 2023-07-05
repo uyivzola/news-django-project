@@ -17,12 +17,12 @@
           <div class="circle circle-one"></div>
           <div class="form-container">
             <img
-              src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png"
+              src="{%static 'mohir_app/images/illustration-login.png'%}"
               alt="illustration"
-              class="illustration"
+              class="illustration image"
             />
             <h1 class="opacity">LOGIN</h1>
-            <form method='post'>
+            <form method="post">
               {% csrf_token %}
               <input type="text" placeholder="USERNAME" name="username" />
               <input type="password" placeholder="PASSWORD" name="password" />

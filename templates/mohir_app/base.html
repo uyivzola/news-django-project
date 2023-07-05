@@ -75,6 +75,16 @@
                 </ul>
               </div>
               <div class="header_top_right">
+                {% if request.user.is_authenticated %}
+                  <p>
+                    <a href={%url 'profile'%}  style="color:blue">Profilga o'tish</a>
+                  </p>
+                  <p>
+                    <a href={%url 'logout'%}  style="color:blue">LOGOUT</a>
+                  </p>
+                {% else %}
+                  <p><a href={%url 'login'%}  style="color:blue">Login</a></p>
+                {% endif %}
                 <p>{% now "D, jS M Y | H:i " %}</p>
               </div>
             </div>

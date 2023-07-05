@@ -26,4 +26,11 @@ def user_login(request):
         }
     return render(request, 'account/login.html', context)
 
-# Create your views here.
+
+def dashboard_view(request):
+    user=request.user
+
+    context={
+        'user':user
+    }
+    return render(request, 'pages/user_profile.html', context)
