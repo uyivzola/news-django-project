@@ -1,0 +1,13 @@
+{% extends 'mohir_app/base.html' %} 
+{% load static %} 
+{% block title %}Logout{%endblock title %} 
+
+{% block content %}
+    <h2>logout</h2>
+    <h3>Siz saytdan chiqdingiz!</h3>
+
+    <h2>Qaytadan kirish uchun quyida login qiling</h2>
+
+    <a href="{%url 'login'%}">Login</a>
+
+{% endblock content %}
