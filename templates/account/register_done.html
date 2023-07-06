@@ -1,0 +1,10 @@
+{% extends 'mohir_app/base.html' %} 
+{% load static %} 
+{% block title%}Welcome, {{new_user.first_name}}!{% endblock title %} 
+
+
+{% block content %}
+    <h1>Welcome, {{new_user.first_name}}!</h1>
+    <h1>You can <a href="{%url 'login'%}">login</a> now.</h1>
+    
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends 'mohir_app/base.html' %} 
+{% load static %} 
+{% block title%}Ro'yxatdan o'tkazish{% endblock title %} 
+
+
+{% block content %}
+    <h1>Yangi foydalanuvchilarni ro'yxatdan o'tkazish</h1>
+    <p>Quyidagi formani to'ldiring Royxatdan otsh ucun</p>
+
+    <form method="post">
+        {% csrf_token %} 
+        {{user_form.as_p}}
+        <button type="submit">SignUp</button>
+    </form>
+
+{% endblock content %}
