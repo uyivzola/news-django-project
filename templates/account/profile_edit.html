@@ -1,0 +1,15 @@
+{% extends 'mohir_app/base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock title %}
+{% block content %}
+    <h1> Profile edit here</h1>
+
+    <form method='post' enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{user_form.as_p}}
+        {{profile_form.as_p}}
+        <button type='submit'> SAVE</button>
+    </form>
+
+{% endblock content %}
