@@ -7,6 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from .models import Profile
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def user_login(request):
     if request.method == 'POST':
@@ -30,7 +32,7 @@ def user_login(request):
         }
     return render(request, 'account/login.html', context)
 
-
+@login_required
 def dashboard_view(request):
     user = request.user
     context = {
@@ -77,7 +79,7 @@ def user_register(request):
     # Render the registration form template with the context data
     return render(request, 'account/register.html', context)
 
-    
+
 """ Creating signup 2nd way """
 class SignUpView(CreateView):
     form_class = UserCreationForm
@@ -122,16 +124,16 @@ class SignUpView(CreateView):
 #         # Render the registration form template with the context data
 #         return render(request, 'account/register.html', context)
 
-
+@login_required
 def edit_user(request):
-    
+
     try:
         profile = request.user.profile
     except Profile.DoesNotExist:
         # If the profile does not exist, create a new one for the user
         profile = Profile(user=request.user)
         profile.save()
-    
+
     # Check if the request method is POST
     if request.method == 'POST':
         # Get the user form data from the request and the current user's data
@@ -166,3 +168,40 @@ def edit_user(request):
 
         # Render the template with the form data
         return render(request, 'account/profile_edit.html', context)
+
+class EditUserView(LoginRequiredMixin, View):
+    
+    def get(self, request):
+        # If the request method is GET (not POST), display the form to the user with their current data pre-filled
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+
+        # Prepare the form data to be displayed in the template
+        context = {
+            'user_form': user_form,
+            'profile_form': profile_form
+        }
+
+        # Render the template with the form data
+        return render(request, 'account/profile_edit.html', context)
+
+    def post(self, request):
+        # Get the user form data from the request and the current user's data
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        # Get the profile form data from the request, including files, and the current user's profile data
+        profile_form = ProfileEditForm(
+            instance=request.user.profile, data=request.POST, files=request.FILES)
+
+        # Check if both forms are valid
+        if user_form.is_valid() and profile_form.is_valid():
+            # If the forms are valid, save the updated user and profile information
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')
+        else:
+            # If the forms are not valid, render the template with the error messages and the filled-in forms
+            context = {
+                'user_form': user_form,
+                'profile_form': profile_form
+            }
+            return render(request, 'account/profile_edit.html', context)
