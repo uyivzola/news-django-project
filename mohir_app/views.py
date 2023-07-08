@@ -5,8 +5,8 @@ from .models import News, Category
 from .forms import ContactForm
 from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from news_project.custom_permissions import OnlyLoggedSuperUser
 def news_detail_page(request, slug):
     news = get_object_or_404(News, slug=slug, status=News.Status.Published)
     context = {
@@ -107,19 +107,19 @@ class ArtsNewsView(TemplateView):
         return news
 
 
-class NewsUpdateView(UpdateView):
+class NewsUpdateView(OnlyLoggedSuperUser,UpdateView):
     model = News
     fields = ('title', 'body', 'image', 'category', 'status')
     template_name = 'crud/news_edit.html'
 
 
-class NewsDeleteView(DeleteView):
+class NewsDeleteView(OnlyLoggedSuperUser,DeleteView):
     model = News
     template_name = 'crud/news_delete.html'
     success_url = reverse_lazy('homePageView')
 
 
-class NewsCreateView(CreateView):
+class NewsCreateView(OnlyLoggedSuperUser,CreateView):
     model = News
     template_name = 'crud/news_create.html'
     fields = ('title', 'slug', 'body', 'image', 'category', 'status')

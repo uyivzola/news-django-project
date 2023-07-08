@@ -10,7 +10,7 @@
 {% block content %}
   {% if news %}
   <section id="detailSection">
-    <div class="row">
+    <div class="row text-danger">
       <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="left_content">
           <div class="single_page">
@@ -26,6 +26,29 @@
                 alt="{{ news.title }}"
               />
               <p>{{ news.body }}</p>
+              <a href="{% url 'newsUpdateView' news.slug%}">
+                <button
+                  class="btn btn-success btn-sm rounded-0"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Edit"
+                >
+                  <i class="fa fa-edit"></i> Edit
+                </button>
+              </a>
+              <a href="{% url 'newsDeleteview' news.slug%}"
+                ><button
+                  class="btn btn-danger btn-sm rounded-0"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                >
+                  <i class="fa fa-trash"></i>Delete
+                </button>
+              </a>
+              
             </div>
           </div>
         </div>
