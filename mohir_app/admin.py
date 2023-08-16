@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Category, Contact
+from .models import News, Category, Contact,Comments
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
@@ -19,3 +19,10 @@ class ContactAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'phone']
     search_fields = ['name', 'email', 'phone']
     ordering = ['name']
+
+@admin.register(Comments)
+class CommentsAdmin(admin.ModelAdmin):
+    list_display=['news','user','body','created_time','active']
+    list_filter=['news','user','active']
+    search_fields=['news','user']
+    ordering=['news','created_time',]

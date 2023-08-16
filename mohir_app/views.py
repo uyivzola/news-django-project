@@ -1,19 +1,53 @@
-from typing import Any, Dict
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import News, Category
 from .forms import ContactForm
 from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from news_project.custom_permissions import OnlyLoggedSuperUser
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import CommentForm
 
 
 def news_detail_page(request, slug):
+    # Get the News object with the given slug, and make sure it has the status 'Published'
     news = get_object_or_404(News, slug=slug, status=News.Status.Published)
+
+    # Get all active comments associated with the news
+    comments = news.comments.filter(active=True)
+
+    # Create a new_comment variable to store the new comment (if any) - initialize it to None
+    new_comment = None
+
+    # Check if the request method is POST (i.e., a form submission)
+    if request.method == 'POST':
+        # Create a CommentForm instance and bind it to the request data
+        comment_form = CommentForm(data=request.POST)
+
+        # Check if the form data is valid
+        if comment_form.is_valid():
+            # Create a new comment object but don't save it to the database yet
+            new_comment = comment_form.save(commit=False)
+            # Associate the comment with the corresponding news object
+            new_comment.news = news
+            # Associate the comment with the corresponding user object
+            new_comment.user = request.user
+            # Save it to the database
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
+    # Prepare the context dictionary with the all objects
     context = {
         'news': news,
+        'comments': comments,
+        'new_comment': new_comment,
+        'comment_form': comment_form
     }
+
+    # Render the 'news_detail.html' template with the context
     return render(request, 'mohir_app/news_detail.html', context=context)
 
 
@@ -121,7 +155,20 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
     success_url = reverse_lazy('homePageView')
 
 
-class NewsCreateView(OnlyLoggedSuperUser, CreateView):
+class NewsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = News
     template_name = 'crud/news_create.html'
     fields = ('title', 'slug', 'body', 'image', 'category', 'status')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def admin_page_view(request):
+    admin_users = User.objects.filter(is_superuser=True)
+    context = {
+        'admin_users': admin_users
+    }
+    return render(request, 'pages/admin_page.html', context)

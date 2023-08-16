@@ -1,0 +1,28 @@
+{% extends 'mohir_app/base.html' %} {% load static %} 
+{% block title %}Admin{%endblock title %} 
+{% block content %}
+
+<h1>Admin sahifasi</h1>
+<h3>Barcha adminlar</h3>
+    <table class="table table-striped table-bordered table-responsive text-primary">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Super User ?</th>
+                <!-- Add other fields' headings here if needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in admin_users %}
+            <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.is_superuser }}</td>
+                <!-- Add other fields' data here if needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

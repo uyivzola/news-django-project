@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.utils import timezone
-# Create your models here.
+from django.contrib.auth.models import User
 
 
 class PublishedManager(models.Manager):
@@ -55,6 +55,24 @@ class News(models.Model):
         return reverse("news_detail_page", args=[self.slug])
 
 
+class Comments(models.Model):
+    news = models.ForeignKey(News,
+                             on_delete=models.CASCADE,
+                             related_name='comments'
+                             )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    created_time = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created_time']
+
+    def __str__(self):
+        return self.body
+
+
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
@@ -64,5 +82,3 @@ class Contact(models.Model):
     def __str__(self):
         return self.email
 
-
-# delete date from one model in database

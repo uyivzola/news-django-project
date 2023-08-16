@@ -26,28 +26,30 @@
                 alt="{{ news.title }}"
               />
               <p>{{ news.body }}</p>
-              <a href="{% url 'newsUpdateView' news.slug%}">
-                <button
-                  class="btn btn-success btn-sm rounded-0"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Edit"
-                >
-                  <i class="fa fa-edit"></i> Edit
-                </button>
-              </a>
-              <a href="{% url 'newsDeleteview' news.slug%}"
-                ><button
-                  class="btn btn-danger btn-sm rounded-0"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                >
-                  <i class="fa fa-trash"></i>Delete
-                </button>
-              </a>
+              {% if request.user.is_authenticated and request.user.is_superuser %}
+                <a href="{% url 'newsUpdateView' news.slug%}">
+                  <button
+                    class="btn btn-success btn-sm rounded-0"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Edit"
+                  >
+                    <i class="fa fa-edit"></i> Edit
+                  </button>
+                </a>
+                <a href="{% url 'newsDeleteview' news.slug%}"
+                  ><button
+                    class="btn btn-danger btn-sm rounded-0"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Delete"
+                  >
+                    <i class="fa fa-trash"></i>Delete
+                  </button>
+                </a>
+              {% endif %}
               
             </div>
           </div>
@@ -84,4 +86,20 @@
   {% else %}
     <p>Page not found.</p>
   {% endif %} 
+{% for comment in comments %}
+
+<div class="comments" >
+  <p class="text-bold text-danger">
+    {{comment.user}}
+    <span class="text-muted font-weight-normal">
+    {{comment.created_time}}
+    </span>
+
+</p>
+{{comment.body | linebreaks}}
+
+
+</div>
+
+{% endfor %}
 {% endblock %}
