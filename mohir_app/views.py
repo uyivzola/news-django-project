@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from .models import News, Category
 from .forms import ContactForm
-from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
+from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from news_project.custom_permissions import OnlyLoggedSuperUser
@@ -36,6 +36,8 @@ def news_detail_page(request, slug):
             new_comment.user = request.user
             # Save it to the database
             new_comment.save()
+            # after submitting clear input text to write another comment
+            comment_form = CommentForm()
     else:
         comment_form = CommentForm()
 
@@ -172,3 +174,14 @@ def admin_page_view(request):
         'admin_users': admin_users
     }
     return render(request, 'pages/admin_page.html', context)
+
+class SearchResults(ListView):
+    model = News
+    template_name = 'mohir_app/search_result.html'
+    context_object_name = 'search_results'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return News.objects.filter(title__icontains=query)
+        return News.objects.none()  # Return an empty queryset if no query

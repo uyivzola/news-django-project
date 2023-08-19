@@ -10,7 +10,7 @@
 {% block content %}
   {% if news %}
   <section id="detailSection">
-    <div class="row text-danger">
+    <div class="row text-white">
       <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="left_content">
           <div class="single_page">
@@ -97,9 +97,38 @@
 
 </p>
 {{comment.body | linebreaks}}
-
-
 </div>
 
 {% endfor %}
+{% if user.is_authenticated %}
+
+<div class="col-md-8 card mb-4 mt-3">
+  <div class="card-body">
+    <h3>Izoh qoldirish</h3>
+    <form method="post">
+      {% csrf_token %}
+
+      {{comment_form.as_p}}
+      <button type="submit" class="btn btn-primary btn-lg">
+        Yuborish
+      </button>
+
+
+    </form>
+  </div>
+</div>
+{% else %}
+<div class="comment-section bg-light p-3 border rounded mt-4">
+  <p class="h4 text-danger mb-3">Only registered users can comment</p>
+
+  <div class="d-flex align-items-center">
+      <a href="{% url 'user_register'%}" class="btn btn-primary btn-lg text-white me-2">Register</a>
+      <span class="text-muted">|</span>
+      <a href="{% url 'login'%}" class="btn btn-success btn-lg text-white ms-2">Login</a>
+  </div>
+</div>
+
+
+{% endif %}
+
 {% endblock %}

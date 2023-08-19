@@ -47,15 +47,12 @@ class News(models.Model):
     class Meta:
         ordering = ['-published_time']
 
-    def __str__(self):
-        return self.title
-    # giving SEO slug for pages
-
     def get_absolute_url(self):
         return reverse("news_detail_page", args=[self.slug])
 
     def __str__(self):
-        return self.body
+        return self.title
+    # giving SEO slug for pages
 
 class Commentsx(models.Model):
     news = models.ForeignKey(News,
