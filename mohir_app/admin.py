@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import News, Category, Contact,Comments
+from .models import News, Category, Contact, Commentsx
+
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ['title', 'slug', 'category','published_time', 'status']
+    list_display = ['title', 'slug', 'category', 'published_time', 'status']
     list_filter = ['status', 'created_time', 'published_time']
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'published_time'
@@ -20,9 +21,10 @@ class ContactAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', 'phone']
     ordering = ['name']
 
-@admin.register(Comments)
+
+@admin.register(Commentsx)
 class CommentsAdmin(admin.ModelAdmin):
-    list_display=['news','user','body','created_time','active']
-    list_filter=['news','user','active']
-    search_fields=['news','user']
-    ordering=['news','created_time',]
+    list_display = ['id', 'user', 'body', 'created_time', 'active']
+    list_filter = ['user', 'active']
+    search_fields = ['news', 'user']
+    ordering = ['news', 'created_time',]

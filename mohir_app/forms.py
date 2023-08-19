@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact, Comments
+from .models import Contact, Commentsx
 
 class ContactForm(forms.ModelForm):
     class Meta:
@@ -13,5 +13,5 @@ class SubscriptionForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = Comments
+        model = Commentsx
         fields = ['user', 'body']

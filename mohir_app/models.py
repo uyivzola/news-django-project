@@ -54,8 +54,10 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse("news_detail_page", args=[self.slug])
 
+    def __str__(self):
+        return self.body
 
-class Comments(models.Model):
+class Commentsx(models.Model):
     news = models.ForeignKey(News,
                              on_delete=models.CASCADE,
                              related_name='comments'
@@ -68,9 +70,10 @@ class Comments(models.Model):
 
     class Meta:
         ordering = ['created_time']
-
+    
     def __str__(self):
         return self.body
+
 
 
 class Contact(models.Model):
@@ -81,4 +84,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
-
