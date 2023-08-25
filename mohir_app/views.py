@@ -9,6 +9,7 @@ from news_project.custom_permissions import OnlyLoggedSuperUser
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import CommentForm
+from django.db.models import Q
 
 
 def news_detail_page(request, slug):
@@ -183,5 +184,5 @@ class SearchResults(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         if query:
-            return News.objects.filter(title__icontains=query)
+            return News.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(comments__body__icontains=query))
         return News.objects.none()  # Return an empty queryset if no query
