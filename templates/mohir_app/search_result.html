@@ -1,25 +1,35 @@
 {% extends 'mohir_app/base.html' %}
 
-{% block title %} Search Results | NewsFeed{% endblock %}
+{% block title %}
+  Search Results | NewsFeed
+{% endblock %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
     <div class="row">
-        <div class="col-lg-8 col-md-8">
-            <h2>Search Results</h2>
-            <hr>
-            {% if search_results %}
-                {% for result in search_results %}
-                    <div class="result-item">
-                        <h3><a href="{{ result.get_absolute_url }}">{{ result.title }}</a></h3>
-                        <p>{{ result.body|truncatechars:150 }}</p>
-                    </div>
-                    <hr>
-                {% endfor %}
-            {% else %}
-                <p>No results found.</p>
-            {% endif %}
-        </div>
+      <div class="col-lg-8 col-md-8">
+        <h2>Search Results</h2>
+
+        {% if search_results %}
+          {% for result in search_results %}
+            <div class="result-item">
+              <h3>
+                <a href="{% url 'news_detail_page' result.slug %}">{{ result.title }}</a>
+              </h3>
+              
+              <p>{{ result.body|truncatechars:150 }}</p>
+              <div class="card">
+                <img src="{{result.image.url}}" alt="{{result.title}}" width="35%">
+
+              </div>
+              
+            </div>
+            <hr />
+          {% endfor %}
+        {% else %}
+          <p>No results found.</p>
+        {% endif %}
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}
