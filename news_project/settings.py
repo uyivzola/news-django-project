@@ -64,7 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'mohir_app.context_processor.latest_news', # included my own context processor
+                'mohir_app.context_processor.latest_news',  # included my own context processor
                 # 'mohir_app.context_processor.categories', # included my own context processor
 
             ],
@@ -140,8 +140,8 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL='homePageView'
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = 'homePageView'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 APPEND_SLASH = False
 
-LOGIN_URL='login'
+LOGIN_URL = 'login'
