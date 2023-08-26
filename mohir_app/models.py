@@ -36,6 +36,8 @@ class News(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices,
                               default=Status.Draft)
+    viewed_ips = models.TextField(default='')
+    views_count = models.IntegerField(default=0)
 
     objects = models.Manager()
     published = PublishedManager()
@@ -54,6 +56,7 @@ class News(models.Model):
         return self.title
     # giving SEO slug for pages
 
+
 class Commentsx(models.Model):
     news = models.ForeignKey(News,
                              on_delete=models.CASCADE,
@@ -67,10 +70,9 @@ class Commentsx(models.Model):
 
     class Meta:
         ordering = ['created_time']
-    
+
     def __str__(self):
         return self.body
-
 
 
 class Contact(models.Model):

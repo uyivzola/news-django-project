@@ -11,10 +11,16 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import CommentForm
 from django.db.models import Q
 
-
 def news_detail_page(request, slug):
     # Get the News object with the given slug, and make sure it has the status 'Published'
     news = get_object_or_404(News, slug=slug, status=News.Status.Published)
+    # Views counting by IP address
+    user_ip = request.META.get('REMOTE_ADDR')  # Get user's IP address
+
+    if user_ip not in news.viewed_ips:
+        news.views_count += 1
+        news.viewed_ips += f',{user_ip}'  # Add the new IP address
+        news.save()
 
     # Get all active comments associated with the news
     comments = news.comments.filter(active=True)
@@ -176,13 +182,33 @@ def admin_page_view(request):
     }
     return render(request, 'pages/admin_page.html', context)
 
+
+# Create a class named 'SearchResults' that inherits from 'ListView'
 class SearchResults(ListView):
+
+    # Specify the model to be used, which is the 'News' model
     model = News
+
+    # Define the template to be used for rendering the search results
     template_name = 'mohir_app/search_result.html'
+
+    # Define the context variable name for the search results in the template
     context_object_name = 'search_results'
 
+    # Define the method to retrieve the queryset for the search results
     def get_queryset(self):
+        # Get the search query from the GET request parameters
         query = self.request.GET.get('q')
+
+        # Check if a query exists
         if query:
-            return News.objects.filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(comments__body__icontains=query))
-        return News.objects.none()  # Return an empty queryset if no query
+            # Use the 'Q' object to create a complex query that searches for the query
+            # in the 'title', 'body', and 'comments' fields of the 'News' model
+            return News.objects.filter(
+                Q(title__icontains=query) |
+                Q(body__icontains=query) |
+                Q(comments__body__icontains=query)
+            )
+
+        # Return an empty queryset if no query is provided
+        return News.objects.none()
