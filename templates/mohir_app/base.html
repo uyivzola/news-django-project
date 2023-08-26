@@ -94,6 +94,9 @@
                   <li><a href="{%url 'homePageView' %}">Home</a></li>
                   <li><a href="#">About</a></li>
                   <li><a href="{%url 'contactView' %}">Contact</a></li>
+                  {% if user.is_authenticated and user.is_superuser %}
+                    <li><a href="{%url 'admin:index' %}">Admin</a></li>
+                  {% endif %}
                 </ul>
               </div>
               <div class="header_top_right">
@@ -262,7 +265,7 @@
           <p class="copyright">
             Copyright &copy; 2045 <a href="{%url 'homePageView'%}">NewsFeed</a>
           </p>
-          <p class="developer">Developed By Wpfreeware</p>
+          <p class="developer">Developed By uyivzola</p>
         </div>
       </footer>
     </div>
