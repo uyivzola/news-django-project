@@ -24,7 +24,7 @@ def news_detail_page(request, slug):
 
     # Get all active comments associated with the news
     comments = news.comments.filter(active=True)
-
+    comment_count=comments.count()
     # Create a new_comment variable to store the new comment (if any) - initialize it to None
     new_comment = None
 
@@ -52,6 +52,7 @@ def news_detail_page(request, slug):
     context = {
         'news': news,
         'comments': comments,
+        'comment_count':comment_count,
         'new_comment': new_comment,
         'comment_form': comment_form
     }
